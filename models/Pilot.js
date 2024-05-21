@@ -11,5 +11,6 @@ const PilotSchema = new mongoose.Schema({
   seniority_level: { type: String, enum: ['senior', 'junior', 'trainee'], required: true }
 });
 
-const Pilot = mongoose.model('Pilot', PilotSchema);
+const Pilot = mongoose.model('Pilot', PilotSchema, 'pilots');
+
 export default Pilot;

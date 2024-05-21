@@ -1,57 +1,83 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../db/sequelize.js';
+import mongoose from 'mongoose';
 
-const Passenger = sequelize.define('Passenger', {
-  PassengerID: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
+const PassengerSchema = new mongoose.Schema({
+  Email: {
+    type: String,
+    required: true,
+    unique: true,
+    default: '-'
+  },
+  Password: {
+    type: String,
+    required: true,
+    default: '-'
   },
   PassportNumber: {
-    type: DataTypes.INTEGER,
-    unique: true
+    type: Number,
+    unique: true,
+    required: true
   },
   CustomerName: {
-    type: DataTypes.STRING(100)
+    type: String,
+    required: true,
+    default: '-'
   },
   Seat_Assigned: {
-    type: DataTypes.STRING(5)
+    type: String,
+    required: true,
+    default: '-'
   },
   Disabilities: {
-    type: DataTypes.TEXT
+    type: String,
+    default: '-'
   },
   Age: {
-    type: DataTypes.INTEGER
+    type: Number,
+    required: true,
+    default: 0
   },
   FlightNumber: {
-    type: DataTypes.STRING(10)
+    type: String,
+    required: true,
+    default: '-'
   },
   PhoneNumber: {
-    type: DataTypes.STRING(20)
+    type: String,
+    required: true,
+    default: '-'
   },
   Gender: {
-    type: DataTypes.STRING(10)
+    type: String,
+    required: true,
+    default: '-'
   },
   Nationality: {
-    type: DataTypes.STRING(50)
+    type: String,
+    required: true,
+    default: '-'
   },
   SeatType: {
-    type: DataTypes.STRING(10),
-    allowNull: false,
-    validate: {
-      isIn: [['business', 'economy']]
-    }
+    type: String,
+    required: true,
+    enum: ['business', 'economy', '-'],
+    default: '-'
   },
   ParentInfo: {
-    type: DataTypes.STRING(100),
-    allowNull: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Passenger',
+    default: null
   },
   AffiliatedPassengerIDs: {
-    type: DataTypes.JSON,
-    allowNull: true
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Passenger',
+    default: []
+  },
+  with_a_Child: {
+    type: Boolean,
+    default: false
   }
-}, {
-  tableName: 'Passenger'
 });
+
+const Passenger = mongoose.model('Passenger', PassengerSchema, 'passenger_info');
 
 export default Passenger;
